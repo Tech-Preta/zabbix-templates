@@ -1,0 +1,33 @@
+zabbix_export:
+  version: "6.0"
+  date: "2023-04-24T19:28:57Z"
+  groups:
+    - uuid: 7df96b18c230490a9a0a9e2307226338
+      name: Templates
+  templates:
+    - uuid: aca94f1594324187afd2188f480743a3
+      template: "PersistentVolumes"
+      name: "PersistentVolumes"
+      groups:
+        - name: Templates
+      discovery_rules:
+        - uuid: 7ca89a9a6014499d8273eaf749baa7b2
+          name: "PV discovery"
+          key: pv.discovery
+          item_prototypes:
+            - uuid: 41b548d1554f4ab3a7cd8ad0e236ed90
+              name: "{#PV} POD NAME"
+              key: "pv.collect[{#PV},5]"
+              trends: "0"
+              value_type: TEXT
+              description: "Pod relacionado ao PV"
+            - uuid: abf3be2f4c114de0abbc909ed31c37be
+              name: "{#PV} used"
+              key: "pv.collect[{#PV},10]"
+              value_type: FLOAT
+              units: "%"
+              trigger_prototypes:
+                - uuid: 5ed290d41c1448b783fcbdd821e09c48
+                  expression: "last(/Template PersistentVolumes/pv.collect[{#PV},10])>80"
+                  name: "{#PV} utilization is higher than 80%"
+                  priority: WARNING

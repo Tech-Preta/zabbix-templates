@@ -1,0 +1,60 @@
+zabbix_export:
+  version: '6.2'
+  date: '2023-12-06T16:25:08Z'
+  template_groups:
+    -
+      uuid: 7df96b18c230490a9a0a9e2307226338
+      name: Templates
+  templates:
+    -
+      uuid: 2c645f05a09b4325b086e8892975a011
+      template: 'WebSite - Monitoring'
+      name: 'WebSite - Monitoring'
+      groups:
+        -
+          name: Templates
+      httptests:
+        -
+          uuid: 394de81192cb4452ad8fc8c9adb8bfe6
+          name: 'Website Health Check: {$WEB.URL}'
+          delay: 3m
+          attempts: '2'
+          agent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.132 Safari/537.36'
+          steps:
+            -
+              name: 'Website Availability'
+              url: '{$WEB.URL}'
+              follow_redirects: 'NO'
+              timeout: 60s
+              required: '{$STRING}'
+              status_codes: '{$STATUSCODE}'
+          tags:
+            -
+              tag: Application
+              value: WebScenario
+      macros:
+        -
+          macro: '{$WEB.URL}'
+  triggers:
+    -
+      uuid: 860d363053e1489eb7e156da0cbfebf0
+      expression: 'last(/WebSite - Monitoring/web.test.fail[Website Health Check: {$WEB.URL}])>0 and (dayofweek()>=1 and time()>130000) and (dayofweek()<=5 and time()<235959)'
+      name: 'HML Website not available: "{$WEB.URL}"'
+      status: DISABLED
+      priority: HIGH
+    -
+      uuid: 1fdf48b307bc48628eab505c985aae72
+      expression: 'last(/WebSite - Monitoring/web.test.rspcode[Website Health Check: {$WEB.URL},Website Availability])<>{$STATUSCODE}'
+      name: 'Status Code Diferente de {$STATUSCODE}'
+      priority: WARNING
+    -
+      uuid: c778421757e84fbb8425d15ec4393e96
+      expression: 'last(/WebSite - Monitoring/web.test.time[Website Health Check: {$WEB.URL},Website Availability,resp],#1:now-75m)>8'
+      name: 'Website is SLOW ({ITEM.LASTVALUE}): {$WEB.URL}'
+      status: DISABLED
+      priority: AVERAGE
+    -
+      uuid: 60730d6d1aa1409b9966a8e9a8e8deb2
+      expression: 'last(/WebSite - Monitoring/web.test.fail[Website Health Check: {$WEB.URL}])>0'
+      name: 'Website not available: "{$WEB.URL}"'
+      priority: HIGH

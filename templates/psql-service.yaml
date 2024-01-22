@@ -1,0 +1,49 @@
+zabbix_export:
+  version: '6.2'
+  date: '2023-12-08T15:18:23Z'
+  template_groups:
+    -
+      uuid: 57b7ae836ca64446ba2c296389c009b7
+      name: Templates/Modules
+  templates:
+    -
+      uuid: a3e49ee9dcb84d53875f5fba7daa9203
+      template: 'PSQL Service'
+      name: 'PSQL Service'
+      groups:
+        -
+          name: Templates/Modules
+      items:
+        -
+          uuid: 2f71246747ca430f90e103f9b16b9824
+          name: 'PSQL service is running'
+          type: SIMPLE
+          key: 'net.tcp.service[{$PROTOCOL},{$HOST},{$PORT}]'
+          delay: 10s
+          history: 1w
+          valuemap:
+            name: 'Service state'
+          triggers:
+            -
+              uuid: 208d364f4d6a4ab7a29d3f57c8376f68
+              expression: 'max(/PSQL Service/net.tcp.service[{$PROTOCOL},{$HOST},{$PORT}],#3)=0'
+              name: 'PSQL service is down on {HOST.NAME}'
+              priority: HIGH
+      macros:
+        -
+          macro: '{$HOST}'
+        -
+          macro: '{$PORT}'
+        -
+          macro: '{$PROTOCOL}'
+      valuemaps:
+        -
+          uuid: 3e1bc271c6584430a6f86e46e01ce0fb
+          name: 'Service state'
+          mappings:
+            -
+              value: '1'
+              newvalue: Up
+            -
+              value: '0'
+              newvalue: Down

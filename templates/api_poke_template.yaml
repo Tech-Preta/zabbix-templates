@@ -1,0 +1,289 @@
+zabbix_export:
+  version: '6.2'
+  date: '2023-12-11T18:23:32Z'
+  template_groups:
+    -
+      uuid: 468039bc79a44336ba407c5fe3392bda
+      name: API
+  host_groups:
+    -
+      uuid: d99b061ed887408b954f677810d695fe
+      name: POKEMON
+  templates:
+    -
+      uuid: 193fd2e029ce4a4792646dea8f5254ee
+      template: 'API Poke'
+      name: 'API Poke'
+      groups:
+        -
+          name: API
+      items:
+        -
+          uuid: 7c73293cf923471eb7909ca9ca421179
+          name: 'List Pokemons'
+          type: HTTP_AGENT
+          key: pokemon.list.key
+          delay: 15s
+          trends: '0'
+          value_type: TEXT
+          timeout: 30s
+          url: 'https://pokeapi.co/api/v2/pokemon'
+          query_fields:
+            -
+              name: name
+              value: bulbasaur
+            -
+              name: name
+              value: ivysaur
+            -
+              name: name
+              value: venusaur
+            -
+              name: name
+              value: charmander
+            -
+              name: name
+              value: charmeleon
+            -
+              name: name
+              value: charizard
+            -
+              name: name
+              value: squirtle
+            -
+              name: name
+              value: wartortle
+            -
+              name: name
+              value: blastoise
+            -
+              name: name
+              value: caterpie
+            -
+              name: name
+              value: metapod
+            -
+              name: name
+              value: butterfree
+            -
+              name: name
+              value: weedle
+            -
+              name: name
+              value: kakuna
+            -
+              name: name
+              value: beedrill
+            -
+              name: name
+              value: pidgey
+            -
+              name: name
+              value: pidgeotto
+            -
+              name: name
+              value: pidgeot
+            -
+              name: name
+              value: rattata
+            -
+              name: name
+              value: raticate
+          posts: '{"body":{"count":1292,"next":"https://pokeapi.co/api/v2/pokemon?offset=20&limit=20","previous":null,"results":[{"name":"bulbasaur","url":"https://pokeapi.co/api/v2/pokemon/1/"},{"name":"ivysaur","url":"https://pokeapi.co/api/v2/pokemon/2/"},{"name":"venusaur","url":"https://pokeapi.co/api/v2/pokemon/3/"},{"name":"charmander","url":"https://pokeapi.co/api/v2/pokemon/4/"},{"name":"charmeleon","url":"https://pokeapi.co/api/v2/pokemon/5/"},{"name":"charizard","url":"https://pokeapi.co/api/v2/pokemon/6/"},{"name":"squirtle","url":"https://pokeapi.co/api/v2/pokemon/7/"},{"name":"wartortle","url":"https://pokeapi.co/api/v2/pokemon/8/"},{"name":"blastoise","url":"https://pokeapi.co/api/v2/pokemon/9/"},{"name":"caterpie","url":"https://pokeapi.co/api/v2/pokemon/10/"},{"name":"metapod","url":"https://pokeapi.co/api/v2/pokemon/11/"},{"name":"butterfree","url":"https://pokeapi.co/api/v2/pokemon/12/"},{"name":"weedle","url":"https://pokeapi.co/api/v2/pokemon/13/"},{"name":"kakuna","url":"https://pokeapi.co/api/v2/pokemon/14/"},{"name":"beedrill","url":"https://pokeapi.co/api/v2/pokemon/15/"},{"name":"pidgey","url":"https://pokeapi.co/api/v2/pokemon/16/"},{"name":"pidgeotto","url":"https://pokeapi.co/api/v2/pokemon/17/"},{"name":"pidgeot","url":"https://pokeapi.co/api/v2/pokemon/18/"},{"name":"rattata","url":"https://pokeapi.co/api/v2/pokemon/19/"},{"name":"raticate","url":"https://pokeapi.co/api/v2/pokemon/20/"}]}}'
+          post_type: JSON
+          headers:
+            -
+              name: name
+              value: bulbasaur
+          output_format: JSON
+      discovery_rules:
+        -
+          uuid: b37db04405344d8d889f2de371638e02
+          name: 'Descobrindo pokémons'
+          type: HTTP_AGENT
+          key: pokemon.discovery.key
+          host_prototypes:
+            -
+              uuid: dbfb2ac714d947e18c14f81bbb82a744
+              host: '{#NAME}'
+              name: '{#NAME}'
+              group_links:
+                -
+                  group:
+                    name: POKEMON
+              macros:
+                -
+                  macro: '{$NAME}'
+                -
+                  macro: '{$URL}'
+              custom_interfaces: 'YES'
+              interfaces:
+                -
+                  useip: 'NO'
+                  dns: '{#URL}'
+          timeout: 30s
+          url: 'https://pokeapi.co/api/v2/pokemon'
+          query_fields:
+            -
+              name: name
+              value: bulbasaur
+            -
+              name: name
+              value: ivysaur
+            -
+              name: name
+              value: venusaur
+            -
+              name: name
+              value: charmander
+            -
+              name: name
+              value: charmeleon
+            -
+              name: name
+              value: charizard
+            -
+              name: name
+              value: squirtle
+            -
+              name: name
+              value: wartortle
+            -
+              name: name
+              value: blastoise
+            -
+              name: name
+              value: caterpie
+            -
+              name: name
+              value: metapod
+            -
+              name: name
+              value: butterfree
+            -
+              name: name
+              value: weedle
+            -
+              name: name
+              value: kakuna
+            -
+              name: name
+              value: beedrill
+            -
+              name: name
+              value: pidgey
+            -
+              name: name
+              value: pidgeotto
+            -
+              name: name
+              value: pidgeot
+            -
+              name: name
+              value: rattata
+            -
+              name: name
+              value: raticate
+          posts: |
+            {
+                "body": {
+                    "count": 1292,
+                    "next": "https://pokeapi.co/api/v2/pokemon?offset=20&limit=20",
+                    "previous": null,
+                    "results": [
+                        {
+                            "name": "bulbasaur",
+                            "url": "https://pokeapi.co/api/v2/pokemon/1/"
+                        },
+                        {
+                            "name": "ivysaur",
+                            "url": "https://pokeapi.co/api/v2/pokemon/2/"
+                        },
+                        {
+                            "name": "venusaur",
+                            "url": "https://pokeapi.co/api/v2/pokemon/3/"
+                        },
+                        {
+                            "name": "charmander",
+                            "url": "https://pokeapi.co/api/v2/pokemon/4/"
+                        },
+                        {
+                            "name": "charmeleon",
+                            "url": "https://pokeapi.co/api/v2/pokemon/5/"
+                        },
+                        {
+                            "name": "charizard",
+                            "url": "https://pokeapi.co/api/v2/pokemon/6/"
+                        },
+                        {
+                            "name": "squirtle",
+                            "url": "https://pokeapi.co/api/v2/pokemon/7/"
+                        },
+                        {
+                            "name": "wartortle",
+                            "url": "https://pokeapi.co/api/v2/pokemon/8/"
+                        },
+                        {
+                            "name": "blastoise",
+                            "url": "https://pokeapi.co/api/v2/pokemon/9/"
+                        },
+                        {
+                            "name": "caterpie",
+                            "url": "https://pokeapi.co/api/v2/pokemon/10/"
+                        },
+                        {
+                            "name": "metapod",
+                            "url": "https://pokeapi.co/api/v2/pokemon/11/"
+                        },
+                        {
+                            "name": "butterfree",
+                            "url": "https://pokeapi.co/api/v2/pokemon/12/"
+                        },
+                        {
+                            "name": "weedle",
+                            "url": "https://pokeapi.co/api/v2/pokemon/13/"
+                        },
+                        {
+                            "name": "kakuna",
+                            "url": "https://pokeapi.co/api/v2/pokemon/14/"
+                        },
+                        {
+                            "name": "beedrill",
+                            "url": "https://pokeapi.co/api/v2/pokemon/15/"
+                        },
+                        {
+                            "name": "pidgey",
+                            "url": "https://pokeapi.co/api/v2/pokemon/16/"
+                        },
+                        {
+                            "name": "pidgeotto",
+                            "url": "https://pokeapi.co/api/v2/pokemon/17/"
+                        },
+                        {
+                            "name": "pidgeot",
+                            "url": "https://pokeapi.co/api/v2/pokemon/18/"
+                        },
+                        {
+                            "name": "rattata",
+                            "url": "https://pokeapi.co/api/v2/pokemon/19/"
+                        },
+                        {
+                            "name": "raticate",
+                            "url": "https://pokeapi.co/api/v2/pokemon/20/"
+                        }
+                    ]
+                }
+            }
+          post_type: JSON
+          lld_macro_paths:
+            -
+              lld_macro: '{#NAME}'
+              path: $.name
+            -
+              lld_macro: '{#URL}'
+              path: $.url
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.results
